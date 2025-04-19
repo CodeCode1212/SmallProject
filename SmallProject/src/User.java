@@ -1,8 +1,8 @@
 
 public class User {
-	private String username = null;
-	private String password = null;
-	public static User key = new User();
+	private String username ;
+	private String password ;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -22,7 +22,7 @@ public class User {
 	public User() {
 	    }
 	
-	User(String username, String password) {
+	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}

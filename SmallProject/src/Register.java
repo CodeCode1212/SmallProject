@@ -1,22 +1,23 @@
 import java.util.Scanner;
-public class Register {
-	public static Register registerAccount = new Register();
-	public void BecomeAMember () {
-		String username, password;
-		Scanner input = Global.input;
-		
-		System.out.print("Please enter your username: \n");
-		username = input.nextLine();
-		User.key.setUsername(username);
-		
-		System.out.print("Please enter your password: \n");
-		password = input.nextLine();
-		User.key.setPassword(password);
-		
-		System.out.println("Proceeding....");
-		Clock.Timer();
-		System.out.println("Your account has been successfully created.");
-	}
-	
 
+public class Register {
+    private final Scanner input;
+
+    public Register(Scanner input) {
+        this.input = input;
+    }
+
+    public User BecomeAMember() {
+        System.out.print("Please enter your username: ");
+        String username = input.nextLine();
+
+        System.out.print("Please enter your password: ");
+        String password = input.nextLine();
+
+        System.out.println("Proceeding...");
+        Clock.Timer();
+        System.out.println("Your account has been successfully created.");
+
+        return new User(username, password);
+    }
 }

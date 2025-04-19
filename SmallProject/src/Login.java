@@ -1,59 +1,37 @@
 import java.util.Scanner;
+
 public class Login {
-	
-	public static Login loginAttempt = new Login();
-	
-	String loginCaution = "You don't have an account yet!. Please go back.";
-	
-	String username;
-	String password;
-	
-	public boolean AccountCheck() {
-		if (User.key.getUsername() == null || User.key.getPassword() == null){
-			System.out.println(loginCaution);
-			return false;
-			}
-		return true;
-	}
-	
-	public Login() {
+    private final Scanner input;
+    private final UserDatabase userDatabase;
+
+    public Login(Scanner input, UserDatabase userDatabase) {
+        this.input = input;
+        this.userDatabase = userDatabase;
     }
 
-	
-	Login(String username, String password) {
-		this.username = username;
-		this.password = password;
-	}
-	
-	public Login LogIn() {
-		 Scanner input = Global.input;
-	       
-		   	System.out.print("Username: ");
-	        String inputUser = input.nextLine();
+    public boolean accountCheck() {
+        if (userDatabase.getAccountCount() == 0) {
+            System.out.println("You don't have any accounts yet! Please go back.");
+            return false;
+        }
+        return true;
+    }
 
-	        System.out.print("Password: ");
-	        String inputPass = input.nextLine();
+    public boolean loginCheck() {
+        System.out.print("Username: ");
+        String username = input.nextLine();
 
-	        return new Login(inputUser, inputPass);
-		}
-	
-	public boolean LogInCheck() {
-		Login attempt = this.LogIn();
-		
-		User first = UserDatabase.index.firstLogin();
-		
-		if ((first.getUsername().equals(attempt.username)) && (first.getPassword().equals(attempt.password))) {
-			
-			System.out.printf("Welcome home, %s!\n", attempt.username);
-			return true;
-		} else {
-			
-			System.out.println("Username or Password is incorrect, please try again");
-			
-			return false;
-		}
-		
-		
-	}
-	}
+        System.out.print("Password: ");
+        String password = input.nextLine();
 
+        User matched = userDatabase.findUser(username, password);
+
+        if (matched != null) {
+            System.out.printf("Welcome home, %s!\n", matched.getUsername());
+            return true;
+        } else {
+            System.out.println("Username or Password is incorrect. Please try again.");
+            return false;
+        }
+    }
+}
